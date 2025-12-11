@@ -9,6 +9,11 @@ import {
 } from 'typeorm';
 import { UserEntity } from './user.entity';
 
+export enum BalanceActionEnum {
+  BalanceDeposit = 'BALANCE_DEPOSIT',
+  DebitFunds = 'DEBIT_FUNDS',
+}
+
 @Entity('balance_action')
 export class BalanceActionEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -29,4 +34,11 @@ export class BalanceActionEntity extends BaseEntity {
 
   @CreateDateColumn()
   ts: Date;
+
+  constructor(userId: number, action: BalanceActionEnum, amount: number) {
+    super();
+    this.userId = userId;
+    this.action = action;
+    this.amount = amount;
+  }
 }

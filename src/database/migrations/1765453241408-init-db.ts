@@ -19,6 +19,7 @@ export class InitDb1765453241408 implements MigrationInterface {
       {
         name: 'balance',
         type: 'int',
+        default: 0,
       },
     ],
   });

@@ -4,7 +4,6 @@ import { config } from 'dotenv';
 config();
 
 export function getDatabaseOptions(): DataSourceOptions {
-  console.log(process.env.DB_PORT);
   return {
     type: 'postgres',
     host: process.env.DB_HOST,
