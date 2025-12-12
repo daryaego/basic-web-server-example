@@ -9,10 +9,12 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { AppService } from './app.service';
-import { TopUpBalance } from './dtos/top-up-user-balance.dto';
+import { TopUpBalanceDto } from './dtos/top-up-user-balance.dto';
+import { Tags } from '~/base/api-tags';
+import { api, ModulePrefix } from '~/base/api-paths';
 
-@ApiTags('Balance')
-@Controller('balance')
+@ApiTags(Tags.RegularBalanceModule)
+@Controller(`${ModulePrefix.Regular}/${api.v1.balance}`)
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
@@ -34,11 +36,11 @@ export class AppController {
 
   @Post()
   @ApiOperation({ summary: 'Top up user balance' })
-  @ApiBody({ type: TopUpBalance })
+  @ApiBody({ type: TopUpBalanceDto })
   @ApiResponse({ status: 201, description: 'Balance topped up successfully' })
   @ApiResponse({ status: 422, description: 'Unprocessable entity' })
   @ApiResponse({ status: 404, description: 'User not found' })
-  async balanceDeposit(@Body() dto: TopUpBalance) {
+  async balanceDeposit(@Body() dto: TopUpBalanceDto) {
     await this.appService.balanceDeposit(dto);
   }
 }

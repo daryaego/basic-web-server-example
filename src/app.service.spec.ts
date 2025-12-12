@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException } from '@nestjs/common';
 import { AppService } from './app.service';
 import { UserEntity } from './database/entities/user.entity';
-import { TopUpBalance } from './dtos/top-up-user-balance.dto';
+import { TopUpBalanceDto } from './dtos/top-up-user-balance.dto';
 
 describe('AppService', () => {
   let service: AppService;
@@ -32,7 +32,9 @@ describe('AppService', () => {
     it('should throw NotFoundException when user does not exist', async () => {
       jest.spyOn(UserEntity, 'findOneBy').mockResolvedValue(null);
 
-      await expect(service.getUserBalance(1)).rejects.toThrow(NotFoundException);
+      await expect(service.getUserBalance(1)).rejects.toThrow(
+        NotFoundException,
+      );
       expect(UserEntity.findOneBy).toHaveBeenCalledWith({ id: 1 });
     });
   });
@@ -47,7 +49,7 @@ describe('AppService', () => {
       };
       jest.spyOn(UserEntity, 'findOneBy').mockResolvedValue(mockUser as any);
 
-      const dto: TopUpBalance = { userId: 1, amount: 50 };
+      const dto: TopUpBalanceDto = { userId: 1, amount: 50 };
       await service.balanceDeposit(dto);
 
       expect(mockUser.balance).toBe(150);
@@ -58,8 +60,10 @@ describe('AppService', () => {
     it('should throw NotFoundException when user does not exist', async () => {
       jest.spyOn(UserEntity, 'findOneBy').mockResolvedValue(null);
 
-      const dto: TopUpBalance = { userId: 1, amount: 50 };
-      await expect(service.balanceDeposit(dto)).rejects.toThrow(NotFoundException);
+      const dto: TopUpBalanceDto = { userId: 1, amount: 50 };
+      await expect(service.balanceDeposit(dto)).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 });
