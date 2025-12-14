@@ -1,2 +1,2 @@
-export * from './user.entity';
-export * from './balance-action.entity';
+export * from './user.database.entity';
+export * from './balance-action.database.entity';

@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException } from '@nestjs/common';
 import { GetUserBalanceQueryHandler } from './get-user-balance.query-handler';
 import { GetUserBalanceQuery } from './get-user-balance.query';
-import { UserEntity } from '~/database/entities/user.entity';
+import { UserDatabaseEntity } from '~/database/entities/user.database.entity';
 
 describe('GetUserBalanceQueryHandler', () => {
   let handler: GetUserBalanceQueryHandler;
@@ -31,7 +31,7 @@ describe('GetUserBalanceQueryHandler', () => {
       balance,
     };
 
-    const findOneBySpy = jest.spyOn(UserEntity, 'findOneBy').mockResolvedValue(mockUser as any);
+    const findOneBySpy = jest.spyOn(UserDatabaseEntity, 'findOneBy').mockResolvedValue(mockUser as any);
 
     const result = await handler.execute(query);
 
@@ -43,7 +43,7 @@ describe('GetUserBalanceQueryHandler', () => {
     const userId = 1;
     const query = new GetUserBalanceQuery(userId);
 
-    const findOneBySpy = jest.spyOn(UserEntity, 'findOneBy').mockResolvedValue(null);
+    const findOneBySpy = jest.spyOn(UserDatabaseEntity, 'findOneBy').mockResolvedValue(null);
 
     await expect(handler.execute(query)).rejects.toThrow(NotFoundException);
     expect(findOneBySpy).toHaveBeenCalledWith({ id: userId });

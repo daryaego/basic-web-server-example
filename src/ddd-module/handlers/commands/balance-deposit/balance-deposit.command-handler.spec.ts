@@ -2,11 +2,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException } from '@nestjs/common';
 import { BalanceDepositCommandHandler } from './balance-deposit.command-handler';
 import { BalanceDepositCommand } from './balance-deposit.command';
-import { UserEntity } from '~/database/entities';
+import { UserDatabaseEntity } from '~/database/entities';
 import {
-  BalanceActionEntity,
+  BalanceActionDatabaseEntity,
   BalanceActionEnum,
-} from '~/database/entities/balance-action.entity';
+} from '~/database/entities/balance-action.database.entity';
 
 describe('BalanceDepositCommandHandler', () => {
   let handler: BalanceDepositCommandHandler;
@@ -39,7 +39,7 @@ describe('BalanceDepositCommandHandler', () => {
     };
 
     const findOneBySpy = jest
-      .spyOn(UserEntity, 'findOneBy')
+      .spyOn(UserDatabaseEntity, 'findOneBy')
       .mockResolvedValue(mockUser as any);
 
     await handler.execute(command);
@@ -47,7 +47,7 @@ describe('BalanceDepositCommandHandler', () => {
     expect(findOneBySpy).toHaveBeenCalledWith({ id: userId });
     expect(mockUser.balance).toBe(initialBalance + amount);
     expect(mockUser.balanceActions).toContainEqual(
-      new BalanceActionEntity(userId, BalanceActionEnum.BalanceDeposit, amount),
+      new BalanceActionDatabaseEntity(userId, BalanceActionEnum.BalanceDeposit, amount),
     );
     expect(mockUser.save).toHaveBeenCalled();
   });
@@ -58,7 +58,7 @@ describe('BalanceDepositCommandHandler', () => {
     const command = new BalanceDepositCommand(userId, amount);
 
     const findOneBySpy = jest
-      .spyOn(UserEntity, 'findOneBy')
+      .spyOn(UserDatabaseEntity, 'findOneBy')
       .mockResolvedValue(null);
 
     await expect(handler.execute(command)).rejects.toThrow(NotFoundException);

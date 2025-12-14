@@ -7,21 +7,17 @@ import {
   CreateDateColumn,
   BaseEntity,
 } from 'typeorm';
-import { UserEntity } from './user.entity';
-
-export enum BalanceActionEnum {
-  BalanceDeposit = 'BALANCE_DEPOSIT',
-  DebitFunds = 'DEBIT_FUNDS',
-}
+import { UserDatabaseEntity } from './user.database.entity';
+import { BalanceActionEnum } from '~/domain/balance-action.entity';
 
 @Entity('balance_action')
-export class BalanceActionEntity extends BaseEntity {
+export class BalanceActionDatabaseEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => UserEntity)
+  @ManyToOne(() => UserDatabaseEntity)
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
-  user: UserEntity;
+  user: UserDatabaseEntity;
 
   @Column({ name: 'user_id' })
   userId: number;
@@ -35,10 +31,18 @@ export class BalanceActionEntity extends BaseEntity {
   @CreateDateColumn()
   ts: Date;
 
-  constructor(userId: number, action: BalanceActionEnum, amount: number) {
+  constructor(
+    id: number | null,
+    userId: number,
+    action: BalanceActionEnum,
+    amount: number,
+    ts: Date,
+  ) {
     super();
+    if (id) this.id = id;
     this.userId = userId;
     this.action = action;
     this.amount = amount;
+    this.ts = ts;
   }
 }
