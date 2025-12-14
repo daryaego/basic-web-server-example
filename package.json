@@ -83,6 +83,11 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^~/database/(.*)$": "<rootDir>/database/$1",
+      "^src/(.*)$": "<rootDir>/$1",
+      "^~/(.*)$": "<rootDir>/ddd-module/$1"
+    }
   }
 }

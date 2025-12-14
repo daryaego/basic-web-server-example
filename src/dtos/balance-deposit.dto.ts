@@ -1,7 +1,7 @@
 import { IsNumber, IsPositive } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class TopUpBalanceDto {
+export class BalanceDepositDto {
   @ApiProperty({
     description: 'The ID of the user to top up balance',
   })

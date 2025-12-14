@@ -1,1 +1,1 @@
-export * from './top-up-user-balance.dto';
+export * from './balance-deposit.dto';

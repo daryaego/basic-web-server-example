@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { TopUpBalanceDto } from './dtos/top-up-user-balance.dto';
+import { BalanceDepositDto } from './dtos/balance-deposit.dto';
 
 describe('AppController', () => {
   let appController: AppController;
@@ -34,7 +34,7 @@ describe('AppController', () => {
 
   describe('balanceDeposit', () => {
     it('should call balanceDeposit on service', async () => {
-      const dto: TopUpBalanceDto = { userId: 1, amount: 50 };
+      const dto: BalanceDepositDto = { userId: 1, amount: 50 };
       jest.spyOn(appService, 'balanceDeposit').mockResolvedValue(undefined);
 
       await appController.balanceDeposit(dto);

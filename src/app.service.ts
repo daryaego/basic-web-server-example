@@ -1,12 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { TopUpBalanceDto } from './dtos/top-up-user-balance.dto';
+import { BalanceDepositDto } from './dtos/balance-deposit.dto';
 import { UserDatabaseEntity } from './database/entities/user.database.entity';
 import { BalanceActionDatabaseEntity } from './database/entities/balance-action.database.entity';
 import { BalanceActionEnum } from '~/domain/balance-action.entity';
 
 @Injectable()
 export class AppService {
-  async balanceDeposit(dto: TopUpBalanceDto) {
+  async balanceDeposit(dto: BalanceDepositDto) {
     const user = await UserDatabaseEntity.findOneBy({ id: dto.userId });
     if (!user) return this.checkUserFound(dto.userId);
     user.balance += dto.amount;

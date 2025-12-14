@@ -2,7 +2,7 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { ApiTags } from '@nestjs/swagger';
 import { Tags } from '~/base/api-tags';
-import { TopUpBalanceDto } from 'src/dtos/top-up-user-balance.dto';
+import { BalanceDepositDto } from 'src/dtos/balance-deposit.dto';
 import { BalanceDepositCommand } from '~/handlers/commands/balance-deposit/balance-deposit.command';
 import { api, ModulePrefix } from '~/base/api-paths';
 
@@ -12,7 +12,7 @@ export class BalanceDepositController {
   constructor(private readonly commandBus: CommandBus) {}
 
   @Post()
-  async execute(@Body() body: TopUpBalanceDto) {
+  async execute(@Body() body: BalanceDepositDto) {
     await this.commandBus.execute(
       new BalanceDepositCommand(body.userId, body.amount),
     );
